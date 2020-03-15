@@ -1,0 +1,11 @@
+{
+  "name": "basic-node-api",
+  "version": "1.0.0",
+  "description": "A basic node api with express.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Álex Goia",
+  "license": "ISC"
+}
