@@ -17,7 +17,9 @@ const isAuth = (req, res, next) => {
         token,
         secret,
         (err, playlaod) => {
-            if (err) res.status(401).json({ message: "Error: " + err.message });
+            if (err) res.status(401).json({
+                message: "Error: " + err.message,
+            });
             User.findById(
                 playlaod._id,
                 (err, user) => {
