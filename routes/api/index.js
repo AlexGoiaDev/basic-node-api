@@ -1,4 +1,11 @@
 const router = require('express').Router();
+
+const useRouterSameName = (...names) => names.forEach(name => router.use(`/${name}`, `./${name}`));
+
 // DECLARE HERE ALL THE API ROUTES
-router.use('/user', require('./user/user.route'));
+useRouterSameName(
+    'user',
+    'auth'
+);
+
 module.exports = router;

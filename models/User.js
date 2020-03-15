@@ -11,9 +11,9 @@ userSchema.pre('save', (next) => {
     next();
 });
 
-userSchema.post('save', (next) => {
+// After save
+userSchema.post('save', () => {
     console.log('User saved');
-    next();
 });
 
 

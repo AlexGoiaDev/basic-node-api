@@ -2,4 +2,6 @@
 module.exports = {
     db: 'holi',
     port: 20,
+    secret: 'holimundi',
+    expiration: 4200
 };
