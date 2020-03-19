@@ -1,8 +1,8 @@
 
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 const config = require('./../config');
 const secret = process.env.SECRET || config.secret;
+const User = require('../models/User');
 
 // Is Authenticated Midleware
 const isAuth = (req, res, next) => {

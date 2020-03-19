@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('./../../models/User');
 const config = require('./../../config');
 const secret = process.env.SECRET || config.secret;
 const expiration = process.env.EXPIRATION || config.expiration;
