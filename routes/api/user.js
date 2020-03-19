@@ -8,4 +8,16 @@ router.get('/', (req, res) => {
     });
 });
 
+router.post('/', async (req, res, next) => {
+    try {
+        const newUser = await new User(req.body).save();
+        res.send({
+            newUser,
+            message: 'Ok',
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 module.exports = router;

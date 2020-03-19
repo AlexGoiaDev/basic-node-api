@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
-    user: {
+    email: {
         type: String,
         required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -15,14 +16,13 @@ const userSchema = mongoose.Schema({
 });
 
 // Before save
-userSchema.pre('save', (next) => {
-    next();
+userSchema.pre('save', () => {
+    console.log('Pre save user');
 });
 
 // After save
 userSchema.post('save', () => {
     console.log('User saved');
 });
-
 
 module.exports = mongoose.model('User', userSchema);

@@ -8,14 +8,14 @@ const expiration = process.env.EXPIRATION || config.expiration;
 
 router.route('/')
     .post((req, res) => {
-        const { user, password } = req.body;
-        if (!user && !password) {
+        const { email, password } = req.body;
+        if (!email && !password) {
             res.status(400).json({
                 message: 'You must send user and password.',
             });
         } else {
             User.findOne(
-                { user },
+                { email },
                 (err, user) => {
                     if (err) throw err;
                     if (!user) {
