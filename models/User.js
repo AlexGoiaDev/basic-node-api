@@ -18,13 +18,13 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: 'Password is required.',
-        select: false,
         minlength: 4,
         maxlength: 30,
     },
     creationDate: {
         type: Date,
-        default: new Date()
+        default: new Date(),
+        immutable: true,
     },
     role: {
         type: String,
@@ -58,7 +58,13 @@ userSchema.post('save', () => {
     console.log('User saved');
 });
 
-// TODO: override comparePassword methods
-// userSchema.methods
+userSchema.methods.comparePassword = function (pw, cb) {
+    bcrypt.compare(pw, this.password, function (err, isMatch) {
+        if (err) {
+            return cb(err);
+        }
+        cb(null, isMatch);
+    });
+};
 
 module.exports = mongoose.model('User', userSchema);

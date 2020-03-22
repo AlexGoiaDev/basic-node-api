@@ -33,10 +33,10 @@ router.route('/')
                                         expiresIn: expiration
                                     }
                                 );
-                                res.status(200).json({
-                                    message: 'Login correcto',
-                                    token: token,
-                                    user: user
+                                res.send({
+                                    user,
+                                    token,
+                                    message: 'Logged!',
                                 });
                             } else {
                                 res.status(400).send({ message: 'Password incorrecta.' });

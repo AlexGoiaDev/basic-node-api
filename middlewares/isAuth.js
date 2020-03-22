@@ -1,6 +1,6 @@
 
 const jwt = require('jsonwebtoken');
-const config = require('./../config');
+const config = require('../config');
 const secret = process.env.SECRET || config.secret;
 const User = require('../models/User');
 
@@ -24,7 +24,7 @@ const isAuth = (req, res, next) => {
                 playlaod._id,
                 (err, user) => {
                     if (err) {
-                        res.status(401).json({ message: "Error: " + err });
+                        res.status(401).send({ message: "Error: " + err });
                     }
                     req.user = user;
                     next();
