@@ -44,4 +44,16 @@ router.post('/', (req, res, next) => {
     }
 });
 
+router.get('/', (req, res, next) => {
+    res.send({
+        message: 'Access token'
+    });
+});
+
+router.post('/post', async (req, res, next) => {
+    const users = await User.find({});
+
+    res.send(users);
+});
+
 module.exports = router;

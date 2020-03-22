@@ -9,7 +9,7 @@ app.use(cors({ origin: '*' }));
 app.use(compression());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 
-app.use('/', requestLogs, require('./routes'));
+app.use('/', require('./routes'));
 app.use(errorHandler);
 
 module.exports = app;
