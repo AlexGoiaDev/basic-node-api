@@ -2,7 +2,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('./../config');
 const secret = process.env.SECRET || config.secret;
-
 const User = require('../models/User');
 
 // Is Authenticated Midleware
@@ -33,6 +32,4 @@ const isAuth = (req, res, next) => {
         });
 };
 
-module.exports = {
-    isAuth,
-};
+module.exports = isAuth;

@@ -8,7 +8,7 @@ const useRouterSameName = (...names) => names.forEach(name => {
 // DECLARE HERE ALL THE API ROUTES WITH THE SAME ENDPOINT AS NAMEFILE
 useRouterSameName(
     'user',
-    'auth'
+    'auth',
 );
 
 module.exports = router;
