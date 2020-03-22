@@ -12,7 +12,7 @@ const handleMongoErrors = (err, req, res) => {
             });
             break;
     }
-}
+};
 
 const hanldeValidationsErrors = (err, req, res) => {
     res.status(400).send({
@@ -20,13 +20,18 @@ const hanldeValidationsErrors = (err, req, res) => {
     });
 };
 
-const defaultError = (err, req, res) => {
+const handleClientError = (err, req, res) => {
+    res.status(err.code).send({
+        message: err.message
+    });
+};
+
+const defaultError = (error, req, res) => {
     res.status(500).send({
-        err,
+        error,
         message: 'Server error.',
     });
-}
-
+};
 
 module.exports = (err, req, res, next) => {
     if (err) {
@@ -36,6 +41,9 @@ module.exports = (err, req, res, next) => {
                 break;
             case 'ValidationError':
                 hanldeValidationsErrors(err, req, res);
+                break;
+            case 'ClientError':
+                handleClientError(err, req, res);
                 break;
             default:
                 defaultError(err, req, res);

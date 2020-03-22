@@ -1,24 +1,28 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const User = require('../../models/User');
+const NoContentError = require('./../../utilities/errors/NoContentError');
 
-router.get('/', async (req, res) => {
+
+router.get('/', async (req, res, next) => {
     try {
         const users = await User.find({});
-        res.send({
-            users,
-        });
+        if (users && users.length === 0) {
+            throw new NoContentError();
+        }
+        res.send(users);
     } catch (err) {
         next(err);
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const users = await User.find({ _id: req.params.id });
-        res.send({
-            users,
-        });
+        const user = await User.findOne({ _id: req.params.id });
+        if (!user) {
+            throw new NoContentError();
+        }
+        res.send(user);
     } catch (err) {
         next(err);
     }
@@ -27,7 +31,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res, next) => {
     try {
         const newUser = await new User(req.body).save();
-        res.send(newUser);
+        res.status(201).send(newUser);
     } catch (err) {
         next(err);
     }
