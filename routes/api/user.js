@@ -9,6 +9,7 @@ const isAdmin = require('./../../middlewares/isAdmin');
 // 1. CREATE
 router.post('/', async (req, res, next) => {
     try {
+        delete req.body.role; // By default you can't create admin users
         const newUser = await new User(req.body).save();
         res.status(201).send(newUser);
     } catch (err) {
@@ -17,7 +18,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // 2. READ
-router.get('/', isAuth, isAdmin, async (req, res, next) => {
+router.get('/', isAuth, async (req, res, next) => {
     try {
         const users = await User.find({});
         if (users && users.length === 0) {
@@ -35,7 +36,6 @@ router.get('/:id', isAuth, canAccess, async (req, res, next) => {
         if (!user) {
             throw new NoContentError();
         }
-        delete user.password;
         res.send(user);
     } catch (err) {
         next(err);
@@ -60,6 +60,17 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 });
 
 // 2. DELETE
+/*
+router.delete('/all', isAdmin, async (req, res, next) => {
+    try {
+        const usersDeleted = await User.deleteMany({});
+        res.send(usersDeleted);
+    } catch (err) {
+        next(err);
+    }
+});
+*/
+
 router.delete('/:id', isAuth, canAccess, async (req, res, next) => {
     try {
         const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
