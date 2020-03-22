@@ -30,9 +30,8 @@ router.post('/', (req, res, next) => {
                                 }
                             );
                             res.send({
-                                user,
-                                token,
-                                message: 'Logged!',
+                                'access_token': token,
+                                'expires_in': config.expiration
                             });
                         } else {
                             next(new BadRequestError('Wrong Password!'));
