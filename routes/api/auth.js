@@ -2,11 +2,15 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const moment = require('moment');
+const bcrypt = require('bcrypt');
 
 const config = require('../../config');
 
 const secret = process.env.SECRET || config.secret;
 const expiration = process.env.EXPIRATION || config.expiration;
+
+const UnauthorizedError = require('../../utilities/errors/UnauthorizedError');
+
 
 /* FUNCTIONS */
 // eslint-disable-next-line no-unused-vars
@@ -21,51 +25,20 @@ const NoContentError = require('../../utilities/errors/NoContentError');
 
 router.post('/', async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email && !password) {
-    return next(new BadRequestError('You must send email and password'));
-  }
+  if (!email || !password) { return next(new BadRequestError('You must send email and password')); }
 
   try {
     const user = await User.findOne({ email });
-    if (!user) {
-      throw new BadRequestError('The user does not exist.');
+    if (!user || (user && !bcrypt.compareSync(password, user.password))) {
+      throw new BadRequestError('Wrong email or password');
     }
-    console.log('User');
-
-    return res.send(user);
-
-    /*
-    User.findOne(
-      { email },
-      (err, user) => {
-        if (err) throw err;
-        if (!user) {
-          next();
-        } else {
-          // el usuario existe
-          user.comparePassword(password, (error, match) => {
-            if (match && !error) {
-              const token = jwt.sign(
-                user.toJSON(),
-                secret,
-                {
-                  expiresIn: expiration,
-                },
-              );
-              res.send({
-                access_token: token,
-                expires_in: config.expiration,
-              });
-            } else {
-              next(new BadRequestError('Wrong Password!'));
-            }
-          });
-        }
-      },
-    );
-    */
+    const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
+    return res.send({
+      access_token: token,
+      expires_in: config.expiration,
+    });
   } catch (err) {
-    return next(err);
+    return next(err.name === 'JsonWebTokenError' ? new UnauthorizedError(err.message) : err);
   }
 });
 

@@ -66,14 +66,4 @@ userSchema.pre('update', function (next) {
 // After save
 userSchema.post('save', () => {});
 
-userSchema.methods.comparePassword = function (pw, cb) {
-  // eslint-disable-next-line consistent-return
-  bcrypt.compare(pw, this.password, (err, isMatch) => {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, isMatch);
-  });
-};
-
 module.exports = mongoose.model('User', userSchema);

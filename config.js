@@ -12,6 +12,6 @@ module.exports = {
   /* Dev config */
   enabledLog: false,
   auth: true,
-  roles: false,
+  roles: true,
 
 };

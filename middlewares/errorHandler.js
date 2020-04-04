@@ -1,3 +1,4 @@
+
 const handleMongoErrors = (err, req, res) => {
   switch (err.code) {
     case 11000:
@@ -19,6 +20,7 @@ const hanldeValidationsErrors = (err, req, res) => res.status(400).send({
 const handleClientError = (err, req, res) => res.status(err.code).send({
   message: err.message,
 });
+
 
 const defaultError = (err, req, res) => res.status(500).send({
   err,
