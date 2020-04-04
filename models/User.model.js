@@ -33,6 +33,11 @@ const userSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  loginStrategy: {
+    type: String,
+    enum: ['email', 'google'],
+    default: 'email',
+  },
   resetPasswordToken: {
     type: String,
   },
