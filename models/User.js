@@ -47,7 +47,7 @@ const hashPassword = (userToSave, next) => {
     bcrypt.hash(userToSave.password, salt, (hashError, hash) => {
       if (hashError) throw hashError;
       userToSave.password = hash;
-      next();
+      return next();
     });
   });
 };

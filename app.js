@@ -10,6 +10,6 @@ app.use(bodyParser.json({ limit: '10mb', extended: true }));
 
 app.use('/', require('./routes'));
 
-app.use(errorHandler);
+app.use(errorHandler.errorHandler);
 
 module.exports = app;

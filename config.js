@@ -9,5 +9,5 @@ module.exports = {
   expiration: 4200,
   maxTimeResetPass: 1,
   enabledLog: false,
-
+  googleClientId: '',
 };

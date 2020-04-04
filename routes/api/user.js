@@ -11,9 +11,9 @@ router.post('/', async (req, res, next) => {
   try {
     delete req.body.role; // By default you can't create admin users
     const newUser = await new User(req.body).save();
-    res.status(201).send(newUser);
+    return res.status(201).send(newUser);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -24,9 +24,9 @@ router.get('/', isAuth, isAdmin, async (req, res, next) => {
     if (users && users.length === 0) {
       throw new NoContentError();
     }
-    res.send(users);
+    return res.send(users);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -36,9 +36,9 @@ router.get('/:id', isAuth, canAccess, async (req, res, next) => {
     if (!user) {
       throw new NoContentError();
     }
-    res.send(user);
+    return res.send(user);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -53,9 +53,9 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
       req.body,
       { new: true }, // Returns the updated document
     );
-    res.send(userUpdated);
+    return res.send(userUpdated);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -64,9 +64,9 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 router.delete('/all', async (req, res, next) => {
   try {
     const usersDeleted = await User.deleteMany({});
-    res.send(usersDeleted);
+    return res.send(usersDeleted);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -74,9 +74,9 @@ router.delete('/all', async (req, res, next) => {
 router.delete('/:id', isAuth, canAccess, async (req, res, next) => {
   try {
     const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
-    res.send(userDeleted);
+    return res.send(userDeleted);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

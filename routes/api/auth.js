@@ -120,7 +120,10 @@ router.post('/reset_password/:reset', async (req, res, next) => {
   const resetPasswordToken = req.params.reset;
   try {
     if (await canUpdatePassword(resetPasswordToken)) {
-      const userUpdated = await User.findOneAndUpdate({ email }, { password, resetPasswordToken: null });
+      const userUpdated = await User.findOneAndUpdate(
+        { email },
+        { password, resetPasswordToken: null },
+      );
       if (userUpdated) {
         res.send({
           message: 'User updated',
