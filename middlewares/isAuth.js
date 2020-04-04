@@ -6,39 +6,23 @@ const config = require('../config');
 const secret = process.env.SECRET || config.secret;
 const User = require('../models/User');
 
-// Is Authenticated Midleware
-const isAuth = (req, res, next) => {
-  if (config.auth === false) {
-    next();
-  } else {
-    const token = req.headers.authorization;
-    if (!token) {
-      res.status(400).json({
-        message: 'Necesitas un token para acceder a este recurso.',
-      });
-    }
+const BadRequestError = require('../utilities/errors/BadRequestError');
+const UnauthorizedError = require('../utilities/errors/UnauthorizedError');
 
-    jwt.verify(
-      token,
-      secret,
-      (err, playlaod) => {
-        if (err) {
-          res.status(401).json({
-            message: `Error: ${err.message}`,
-          });
-        }
-        User.findById(
-          playlaod._id,
-          (userError, user) => {
-            if (userError) {
-              return res.status(401).send({ message: `Error: ${err}` });
-            }
-            req.user = user;
-            return next();
-          },
-        );
-      },
-    );
+// Is Authenticated Midleware
+const isAuth = async (req, res, next) => {
+  if (config.auth === false) { return next(); }
+
+  try {
+    const token = req.headers.authorization;
+    if (!token) { throw new BadRequestError('Token required'); }
+    const { _id } = jwt.verify(token, secret);
+    const user = await User.findById(_id);
+    if (!user) { throw new UnauthorizedError('Unauthorized'); }
+    req.user = user;
+    return next();
+  } catch (err) {
+    return next(err.name === 'JsonWebTokenError' ? new UnauthorizedError(err.message) : err);
   }
 };
 
