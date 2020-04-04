@@ -32,17 +32,18 @@ const verify = async (token) => {
 };
 
 router.post('/', async (req, res, next) => {
-  const { googleToken } = req.body;
   try {
+    const { googleToken } = req.body;
     if (!googleToken) {
       return next(new BadRequestError('You need a Google Token'));
     }
+
     const googleUser = await verify(googleToken);
     if (!googleUser) {
       return next(new BadRequestError('Google user not found'));
     }
-    const user = await User.findOne({ email: googleUser.email });
 
+    const user = await User.findOne({ email: googleUser.email });
     if (!user) {
       await new User({
         email: googleUser.email,
@@ -50,7 +51,7 @@ router.post('/', async (req, res, next) => {
         loginStrategy: 'gmail',
       }).save();
     } else if (user.loginStrategy === 'gmail') {
-      throw new BadRequestError('You have to login with your email');
+      throw new BadRequestError('You have to login with your email. Not with Google.');
     }
 
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
