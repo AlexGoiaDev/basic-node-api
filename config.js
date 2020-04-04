@@ -11,7 +11,7 @@ module.exports = {
   googleClientId: '',
   /* Dev config */
   enabledLog: false,
-  auth: false,
+  auth: true,
   roles: false,
 
 };
