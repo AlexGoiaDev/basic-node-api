@@ -17,7 +17,7 @@ const UnauthorizedError = require('../../utilities/errors/UnauthorizedError');
 const { sendEmail } = require('../../utilities/functions/email');
 
 /* MODELS */
-const User = require('../../models/User');
+const User = require('../../models/User.model');
 
 /* ERRORS */
 const BadRequestError = require('../../utilities/errors/BadRequestError');

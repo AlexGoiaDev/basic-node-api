@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 const secret = process.env.SECRET || config.secret;
-const User = require('../models/User');
+const User = require('../models/User.model');
 
 const BadRequestError = require('../utilities/errors/BadRequestError');
 const UnauthorizedError = require('../utilities/errors/UnauthorizedError');

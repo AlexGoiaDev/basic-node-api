@@ -11,7 +11,7 @@ const client = new OAuth2Client(clientId);
 /* FUNCTIONS */
 
 /* MODELS */
-const User = require('../../models/User');
+const User = require('../../models/User.model');
 
 /* ERRORS */
 const BadRequestError = require('../../utilities/errors/BadRequestError');
