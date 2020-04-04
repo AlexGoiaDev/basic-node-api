@@ -60,16 +60,16 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 });
 
 // 2. DELETE
-/*
-router.delete('/all', isAdmin, async (req, res, next) => {
-    try {
-        const usersDeleted = await User.deleteMany({});
-        res.send(usersDeleted);
-    } catch (err) {
-        next(err);
-    }
+
+router.delete('/all', async (req, res, next) => {
+  try {
+    const usersDeleted = await User.deleteMany({});
+    res.send(usersDeleted);
+  } catch (err) {
+    next(err);
+  }
 });
-*/
+
 
 router.delete('/:id', isAuth, canAccess, async (req, res, next) => {
   try {

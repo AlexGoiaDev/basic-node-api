@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 
+// eslint-disable-next-line no-useless-escape
 const validateEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/.test(email);
 
 const userSchema = mongoose.Schema({
@@ -34,7 +35,6 @@ const userSchema = mongoose.Schema({
   },
   resetPasswordToken: {
     type: String,
-    unique: true,
   },
   resetPasswordTokenDate: {
     type: Date,
@@ -44,8 +44,8 @@ const userSchema = mongoose.Schema({
 
 const hashPassword = (userToSave, next) => {
   bcrypt.genSalt(saltRounds, (err, salt) => {
-    bcrypt.hash(userToSave.password, salt, (err, hash) => {
-      if (err) throw err;
+    bcrypt.hash(userToSave.password, salt, (hashError, hash) => {
+      if (hashError) throw hashError;
       userToSave.password = hash;
       next();
     });
@@ -64,11 +64,10 @@ userSchema.pre('update', function (next) {
 });
 
 // After save
-userSchema.post('save', () => {
-  console.log('User saved');
-});
+userSchema.post('save', () => {});
 
 userSchema.methods.comparePassword = function (pw, cb) {
+  // eslint-disable-next-line consistent-return
   bcrypt.compare(pw, this.password, (err, isMatch) => {
     if (err) {
       return cb(err);
