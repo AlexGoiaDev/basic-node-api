@@ -8,6 +8,10 @@ module.exports = {
   secret: 'holimundi',
   expiration: 4200,
   maxTimeResetPass: 1,
-  enabledLog: false,
   googleClientId: '',
+  /* Dev config */
+  enabledLog: false,
+  auth: false,
+  roles: false,
+
 };

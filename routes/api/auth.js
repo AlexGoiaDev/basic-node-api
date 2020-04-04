@@ -19,17 +19,28 @@ const User = require('../../models/User');
 const BadRequestError = require('../../utilities/errors/BadRequestError');
 const NoContentError = require('../../utilities/errors/NoContentError');
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const { email, password } = req.body;
   if (!email && !password) {
-    next(new BadRequestError('You must send email and password'));
-  } else {
+    return next(new BadRequestError('You must send email and password'));
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new BadRequestError('The user does not exist.');
+    }
+    console.log('User');
+
+    return res.send(user);
+
+    /*
     User.findOne(
       { email },
       (err, user) => {
         if (err) throw err;
         if (!user) {
-          next(new BadRequestError('The user does not exist.'));
+          next();
         } else {
           // el usuario existe
           user.comparePassword(password, (error, match) => {
@@ -52,6 +63,9 @@ router.post('/', (req, res, next) => {
         }
       },
     );
+    */
+  } catch (err) {
+    return next(err);
   }
 });
 
@@ -138,6 +152,5 @@ router.post('/reset_password/:reset', async (req, res, next) => {
     next(err);
   }
 });
-
 
 module.exports = router;
