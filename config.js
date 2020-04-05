@@ -8,7 +8,7 @@ module.exports = {
   secret: 'holimundi',
   expiration: 4200,
   maxTimeResetPass: 1,
-  googleClientId: '',
+  googleClientId: '535117363290-tco768uqho9hui9c1667fbs64crr6jok.apps.googleusercontent.com',
   /* Dev config */
   enabledLog: false,
   auth: true,
