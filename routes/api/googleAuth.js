@@ -50,7 +50,7 @@ router.post('/', async (req, res, next) => {
         password: '!-_-_-!',
         loginStrategy: 'gmail',
       }).save();
-    } else if (user.loginStrategy === 'gmail') {
+    } else if (user.loginStrategy === 'email') {
       throw new BadRequestError('You have to login with your email. Not with Google.');
     }
 
