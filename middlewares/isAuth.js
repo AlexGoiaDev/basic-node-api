@@ -11,7 +11,7 @@ const UnauthorizedError = require('../utilities/errors/UnauthorizedError');
 
 // Is Authenticated Midleware
 const isAuth = async (req, res, next) => {
-  if (auth === false || auth.toLowerCase() === 'false') { return next(); }
+  if (auth === false || (typeof auth === 'string' && auth.toLowerCase() === 'false')) { return next(); }
 
   try {
     const token = req.headers.authorization;

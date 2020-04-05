@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-router.post('/forget_password', async (req, res, next) => {
+router.post('/forget-password', async (req, res, next) => {
   try {
     const { email } = req.body;
     const resetPasswordToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
@@ -79,17 +79,18 @@ router.post('/forget_password', async (req, res, next) => {
 
 const canUpdatePassword = async (resetPasswordToken) => {
   const user = await User.findOne({ resetPasswordToken });
-  if (user) {
-    const diff = moment(new Date()).diff(user.resetPasswordTokenDate, 'm');
-    if (diff <= config.maxTimeResetPass) { return true; }
+  const diff = moment(new Date()).diff(user.resetPasswordTokenDate, 'm');
+  if (user && diff <= config.maxTimeResetPass) {
+    return true;
   }
   return false;
 };
 
-router.get('/forget_password/:reset', async (req, res, next) => {
+router.get('/forget-password/:reset', async (req, res, next) => {
   try {
     const resetPasswordToken = req.params.reset;
-    if (await canUpdatePassword(resetPasswordToken)) {
+    const canUpdate = await canUpdatePassword(resetPasswordToken);
+    if (canUpdate) {
       res.send({
         message: 'Can update!',
       });
@@ -102,11 +103,12 @@ router.get('/forget_password/:reset', async (req, res, next) => {
   }
 });
 
-router.post('/reset_password/:reset', async (req, res, next) => {
+router.post('/reset-password/:reset', async (req, res, next) => {
   const { email, password } = req.body;
   const resetPasswordToken = req.params.reset;
   try {
-    if (await canUpdatePassword(resetPasswordToken)) {
+    const canUpdate = await canUpdatePassword(resetPasswordToken);
+    if (canUpdate) {
       const userUpdated = await User.findOneAndUpdate(
         { email },
         { password, resetPasswordToken: null },
@@ -119,7 +121,7 @@ router.post('/reset_password/:reset', async (req, res, next) => {
         next(new BadRequestError('Password not modified'));
       }
     } else {
-      next(new BadRequestError('You can not update the password'));
+      next(new BadRequestError('Url expired or already used.'));
     }
   } catch (err) {
     next(err);

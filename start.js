@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config');
 
@@ -7,7 +8,6 @@ const DB = process.env.DB || config.db;
 const HOST = process.env.HOST || config.host;
 const DB_USER = process.env.DB_USER || config.dbUser;
 const DB_PASSWORD = process.env.DB_PASSWORD || config.dbPassword;
-const mongoose = require('mongoose');
 
 const connectToDb = () => {
   mongoose.connect(
@@ -15,7 +15,7 @@ const connectToDb = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: true,
+      useFindAndModify: false,
     },
   )
     .then(() => {

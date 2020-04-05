@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
@@ -47,28 +48,26 @@ const userSchema = mongoose.Schema({
 
 });
 
-const hashPassword = (userToSave, next) => {
-  bcrypt.genSalt(saltRounds, (err, salt) => {
-    bcrypt.hash(userToSave.password, salt, (hashError, hash) => {
-      if (hashError) throw hashError;
-      userToSave.password = hash;
-      return next();
-    });
-  });
+// Esta función se ejecutará en un try and catch
+const hashPass = (element, next) => {
+  element.password = bcrypt.hashSync(element.password, bcrypt.genSaltSync(saltRounds));
+  next();
 };
 
-// Before save
-userSchema.pre('save', function (next) {
-  const userToSave = this;
-  hashPassword(userToSave, next);
-});
+function preHashPassword(next) {
+  hashPass(this, next);
+}
 
-userSchema.pre('update', function (next) {
-  const userToUpdate = this;
-  hashPassword(userToUpdate, next);
+userSchema.pre('save', preHashPassword);
+userSchema.pre('update', preHashPassword);
+userSchema.pre('findOneAndUpdate', function (next) {
+  const element = this.getUpdate();
+  if (element && element.password) {
+    hashPass(element, next);
+  } else {
+    next();
+  }
 });
-
-// After save
 userSchema.post('save', () => {});
 
 module.exports = mongoose.model('User', userSchema);
