@@ -57,7 +57,7 @@ router.post('/', async (req, res, next) => {
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
     return res.send({
       access_token: token,
-      expires_in: config.expiration,
+      expires_in: expiration,
     });
   } catch (err) {
     return next(err);
