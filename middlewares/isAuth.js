@@ -1,17 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 const secret = process.env.SECRET || config.secret;
-const User = require('../models/User.model');
+const auth = process.env.AUTH || config.auth;
 
+const User = require('../models/User.model');
 const BadRequestError = require('../utilities/errors/BadRequestError');
 const UnauthorizedError = require('../utilities/errors/UnauthorizedError');
 
 // Is Authenticated Midleware
 const isAuth = async (req, res, next) => {
-  if (config.auth === false) { return next(); }
+  if (auth === false || auth.toLowerCase() === 'false') { return next(); }
 
   try {
     const token = req.headers.authorization;

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const User = require('../../models/User.model');
-const NoContentError = require('../../utilities/errors/NoContentError').default;
+const NoContentError = require('../../utilities/errors/NoContentError');
 const isAuth = require('../../middlewares/isAuth');
 const canAccess = require('../../middlewares/canAccess');
 const isAdmin = require('../../middlewares/isAdmin');
