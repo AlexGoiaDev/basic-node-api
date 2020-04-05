@@ -38,12 +38,12 @@
             console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
             var googleToken = googleUser.getAuthResponse().id_token;
-            fetch({
-                url: '/api/google-auth',
+            console.log('Google token', googleToken);
+            fetch('/api/google-auth', {
+                method: 'POST',
                 body: {
                     googleToken,
                 },
-                method: 'POST'
             }).then(res => console.log('Res', res))
             .catch(err => console.log('Error', err))
 
