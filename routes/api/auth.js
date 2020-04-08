@@ -38,7 +38,7 @@ router.post('/', async (req, res, next) => {
     };
 
     res.cookie('dataToken', dataToken, {
-      expires: new Date(),
+      expires: new Date().setTime(new Date().getTime() + expiration),
     });
 
 
