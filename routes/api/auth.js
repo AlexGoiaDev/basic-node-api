@@ -33,10 +33,16 @@ router.post('/', async (req, res, next) => {
       throw new BadRequestError('Wrong email or password');
     }
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
-    return res.send({
+    const dataToken = {
       access_token: token,
-      expires_in: config.expiration,
+    };
+
+    res.cookie('dataToken', dataToken, {
+      expires: new Date(),
     });
+
+
+    return res.send(dataToken);
   } catch (err) {
     return next(err.name === 'JsonWebTokenError' ? new UnauthorizedError(err.message) : err);
   }
