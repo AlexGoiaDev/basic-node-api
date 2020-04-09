@@ -35,13 +35,8 @@ router.post('/', async (req, res, next) => {
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
     const dataToken = {
       access_token: token,
+      expires_in: config.expiration,
     };
-
-    res.cookie('dataToken', dataToken, {
-      expires: new Date().setTime(new Date().getTime() + expiration),
-    });
-
-
     return res.send(dataToken);
   } catch (err) {
     return next(err.name === 'JsonWebTokenError' ? new UnauthorizedError(err.message) : err);
