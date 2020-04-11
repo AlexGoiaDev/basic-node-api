@@ -1,7 +1,7 @@
 const ForbiddenError = require('../utilities/errors/ForbiddenError');
 const config = require('../config');
 
-const roles = process.env.ROLES || config.roles;
+const { roles } = config;
 
 module.exports = (req, res, next) => {
   if (roles === false || roles.toLowerCase() === 'false') {
