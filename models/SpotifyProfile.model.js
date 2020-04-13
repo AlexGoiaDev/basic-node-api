@@ -20,6 +20,12 @@ const userSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 4,
   },
+  latitude: {
+    type: Number,
+  },
+  lingitude: {
+    type: Number,
+  },
   display_name: {
     type: String,
     minlength: 3,
@@ -44,7 +50,11 @@ const userSchema = mongoose.Schema({
     default: new Date(),
     immutable: true,
   },
+  lastUpdate: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('SpotifyProfile', userSchema);

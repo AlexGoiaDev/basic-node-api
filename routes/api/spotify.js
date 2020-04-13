@@ -26,6 +26,26 @@ router.post('/exchange', async (req, res) => {
   }
 });
 
+router.get('/extract-profile-data', async (req, res) => {
+  const headers = {
+    Authorization: `Bearer ${req.headers.authorization}`,
+  };
+  const { data: userInfo } = await axios.get('https://api.spotify.com/v1/me', {
+    headers,
+  });
+  const userToShow = {
+    country: userInfo.country,
+    display_name: userInfo.display_name,
+    email: userInfo.email,
+    uri: userInfo.uri,
+    product: userInfo.product,
+    imageUrl: userInfo.images && userInfo.images[0] ? userInfo.images[0].url : null,
+  };
+
+
+  res.send(userToShow);
+});
+
 router.get('/extract-data', async (req, res) => {
   try {
     const headers = {
@@ -34,25 +54,12 @@ router.get('/extract-data', async (req, res) => {
 
     const { limit = '50', offset = '0', timeRange = 'long_term' } = req.query;
 
-    // User profile
-    const { data: userInfo } = await axios.get('https://api.spotify.com/v1/me', {
-      headers,
-    });
-
-    const userToShow = {
-      country: userInfo.country,
-      display_name: userInfo.display_name,
-      email: userInfo.email,
-      uri: userInfo.uri,
-      product: userInfo.product,
-      imageUrl: userInfo.images && userInfo.images[0] ? userInfo.images[0].url : null,
-    };
 
     // Top Artists
     const topArtistsParams = `limit=${limit}&offset=${offset}&time_range=${timeRange}`;
     const { data: topArtists } = await axios.get(
       `https://api.spotify.com/v1/me/top/artists?${
-      topArtistsParams}`,
+        topArtistsParams}`,
       {
         headers,
       },
@@ -70,7 +77,7 @@ router.get('/extract-data', async (req, res) => {
     const topTracksParams = `limit=${limit}&offset=${offset}&time_range=${timeRange}`;
     const { data: topTracks } = await axios.get(
       `https://api.spotify.com/v1/me/top/tracks?${
-      topTracksParams}`,
+        topTracksParams}`,
       {
         headers,
       },
@@ -88,7 +95,6 @@ router.get('/extract-data', async (req, res) => {
     }));
 
     return res.send({
-      userToShow,
       topAritstsToShow,
       topTracksToShow,
     });
