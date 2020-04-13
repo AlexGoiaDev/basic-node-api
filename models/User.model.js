@@ -36,7 +36,7 @@ const userSchema = mongoose.Schema({
   },
   loginStrategy: {
     type: String,
-    enum: ['email', 'google'],
+    enum: ['email', 'google', 'spotify'],
     default: 'email',
   },
   resetPasswordToken: {
@@ -68,6 +68,6 @@ userSchema.pre('findOneAndUpdate', function (next) {
     next();
   }
 });
-userSchema.post('save', () => {});
+userSchema.post('save', () => { });
 
 module.exports = mongoose.model('User', userSchema);
