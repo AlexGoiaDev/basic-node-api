@@ -39,11 +39,20 @@ router.get('/extract-data', async (req, res) => {
       headers,
     });
 
+    const userToShow = {
+      country: userInfo.country,
+      display_name: userInfo.display_name,
+      email: userInfo.email,
+      uri: userInfo.uri,
+      product: userInfo.product,
+      imageUrl: userInfo.images && userInfo.images[0] ? userInfo.images[0].url : null,
+    };
+
     // Top Artists
     const topArtistsParams = `limit=${limit}&offset=${offset}&time_range=${timeRange}`;
     const { data: topArtists } = await axios.get(
       `https://api.spotify.com/v1/me/top/artists?${
-        topArtistsParams}`,
+      topArtistsParams}`,
       {
         headers,
       },
@@ -61,7 +70,7 @@ router.get('/extract-data', async (req, res) => {
     const topTracksParams = `limit=${limit}&offset=${offset}&time_range=${timeRange}`;
     const { data: topTracks } = await axios.get(
       `https://api.spotify.com/v1/me/top/tracks?${
-        topTracksParams}`,
+      topTracksParams}`,
       {
         headers,
       },
@@ -79,7 +88,7 @@ router.get('/extract-data', async (req, res) => {
     }));
 
     return res.send({
-      userInfo,
+      userToShow,
       topAritstsToShow,
       topTracksToShow,
     });
