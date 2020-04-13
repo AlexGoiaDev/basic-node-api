@@ -13,5 +13,9 @@ module.exports = {
   enabledLog: false,
   auth: false,
   roles: false,
+  spotifyAuthUrl: 'https://accounts.spotify.com/api/token',
+  spotifyClientId: process.env.SPOTIFY_CLIENT_ID || '277cf54305d644cda3ff397982eca9f1',
+  spotifyClientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9527a00d199a46eab01e453bc3d678cd',
+  spotifyCallbackUri: process.env.SPOTITY_CALLBACL_URI || 'https://hellomanito.netlify.com/',
 
 };
