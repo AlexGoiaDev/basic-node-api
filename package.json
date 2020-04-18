@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha 'tests/**'",
     "start": "node start.js",
-    "start-dev": "nodemon start.js"
+    "start-dev": "nodemon start.js",
+    "upload": "npm version patch & git push master"
   },
   "author": "Álex Goia",
   "license": "ISC",
