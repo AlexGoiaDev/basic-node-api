@@ -7,7 +7,7 @@
     "test": "mocha 'tests/**'",
     "start": "node start.js",
     "start-dev": "nodemon start.js",
-    "upload": "npm version patch & git push master"
+    "upload": "npm version patch & git push origin master"
   },
   "author": "Álex Goia",
   "license": "ISC",
