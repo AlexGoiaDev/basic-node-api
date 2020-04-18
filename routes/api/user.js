@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const User = require('../../models/User.model');
 const NoContentError = require('../../utilities/errors/NoContentError');
@@ -33,6 +34,18 @@ router.get('/', isAuth, isAdmin, async (req, res, next) => {
 router.get('/:id', isAuth, canAccess, async (req, res, next) => {
   try {
     const user = await User.findById({ _id: req.params.id });
+    if (!user) {
+      throw new NoContentError();
+    }
+    return res.send(user);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get('/me', isAuth, async (req, res, next) => {
+  try {
+    const user = await User.findById({ _id: req.user._id });
     if (!user) {
       throw new NoContentError();
     }
