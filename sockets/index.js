@@ -2,16 +2,9 @@
 const moment = require('moment');
 const { io } = require('../app');
 
-let connected = 0;
 
 io.on('connection', (client) => {
-  connected += 1;
-  console.log('Cliente conectado', connected);
-  client.broadcast.emit('connected');
-
   client.on('disconnect', () => {
-    console.log('Client desconectado');
-    connected -= 1;
     client.broadcast.emit('connected');
   });
 
