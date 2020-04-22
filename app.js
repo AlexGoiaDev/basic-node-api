@@ -14,8 +14,9 @@ app.use(cors({ origin: '*' }));
 app.use(compression());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(express.static(path.resolve(__dirname, './public')));
-app.use(errorHandler.errorHandler);
 app.use('/', require('./routes'));
+
+app.use(errorHandler.errorHandler);
 
 const server = http.createServer(app);
 module.exports = server;
