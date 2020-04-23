@@ -1,23 +1,21 @@
 const nodemailer = require('nodemailer');
+const config = require('../../config');
 
 const sendEmail = async (to, subject, text, html) => {
-  const testAccount = await nodemailer.createTestAccount();
   const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    service: 'gmail',
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: config.gmailAccount, // generated ethereal user
+      pass: config.gmailPassword, // generated ethereal password
     },
   });
 
   const info = {
+    from: config.gmailAccount,
     to,
     subject,
     text,
     html,
-    from: 'Test api',
   };
   return transporter.sendMail(info);
 };

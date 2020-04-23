@@ -11,7 +11,6 @@ const expiration = process.env.EXPIRATION || config.expiration;
 
 const UnauthorizedError = require('../../utilities/errors/UnauthorizedError');
 
-
 /* FUNCTIONS */
 // eslint-disable-next-line no-unused-vars
 const { sendEmail } = require('../../utilities/functions/email');
@@ -44,7 +43,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-router.post('/forget-password', async (req, res, next) => {
+router.post('/recover-email', async (req, res, next) => {
   try {
     const { email } = req.body;
     const resetPasswordToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
@@ -60,21 +59,22 @@ router.post('/forget-password', async (req, res, next) => {
     );
     if (user) {
       // Send email to restore password
-      res.send(user);
-      /*
       const emailSent = await sendEmail(email,
         'Recovery password',
         'Pincha en este enlace para cambiar tu contraseña');
       if (emailSent.messageId) {
-        res.send({
+        return res.send({
+          messageId: emailSent.messageId,
           message: 'Email sent!',
         });
-      } */
-    } else {
-      next(new NoContentError());
+      }
+      return res.status(500).send({
+        message: 'Email not sent',
+      });
     }
+    return next(new NoContentError());
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -86,23 +86,6 @@ const canUpdatePassword = async (resetPasswordToken) => {
   }
   return false;
 };
-
-router.get('/forget-password/:reset', async (req, res, next) => {
-  try {
-    const resetPasswordToken = req.params.reset;
-    const canUpdate = await canUpdatePassword(resetPasswordToken);
-    if (canUpdate) {
-      res.send({
-        message: 'Can update!',
-      });
-    } else {
-      await User.findOneAndUpdate({ resetPasswordToken }, { resetPasswordToken: null });
-      next(new BadRequestError('El token ha expirado'));
-    }
-  } catch (err) {
-    next(err);
-  }
-});
 
 router.post('/reset-password/:reset', async (req, res, next) => {
   const { email, password } = req.body;

@@ -13,5 +13,7 @@ module.exports = {
   enabledLog: false,
   auth: false,
   roles: false,
+  gmailAccount: 'alexgoiapsi@gmail.com',
+  gmailPassword: 'Mcgnlmrsld!1991',
 
 };
