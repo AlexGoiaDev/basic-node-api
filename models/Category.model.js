@@ -12,7 +12,7 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: 'Name of category is required.',
     unique: true,
-    minlength: 8,
+    minlength: 4,
     maxlength: 200,
     validate: [validateSlug, 'Invalid slug name'],
   },
@@ -33,8 +33,12 @@ const categorySchema = mongoose.Schema({
       },
     },
   ],
+  phrases: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Phrase',
+    },
+  ],
 });
-
-// Esta función se ejecutará en un try and catch
 
 module.exports = mongoose.model('Category', categorySchema);

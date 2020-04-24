@@ -19,7 +19,7 @@ router.post('/', async (req, res, next) => {
 // 2. READ
 router.get('/', async (req, res, next) => {
   try {
-    const cats = await Category.find({});
+    const cats = await Category.find({}).populate('phrases');
     if (cats && cats.length === 0) {
       throw new NoContentError();
     }
