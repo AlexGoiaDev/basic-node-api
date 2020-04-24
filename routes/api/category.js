@@ -31,7 +31,16 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const category = await Category.findById({ _id: req.params.id });
+    const { limit = 10, skip = 0 } = req.query;
+    console.log('req.params', req.query);
+    const category = await Category.findById({ _id: req.params.id }).populate({
+      path: 'phrases',
+      select: 'phrase -_id',
+      options: {
+        skip,
+        limit,
+      },
+    });
     if (!category) {
       throw new NoContentError();
     }
