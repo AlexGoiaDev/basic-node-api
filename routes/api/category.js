@@ -29,11 +29,10 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:slug', async (req, res, next) => {
   try {
     const { limit = 10, skip = 0 } = req.query;
-    console.log('req.params', req.query);
-    const category = await Category.findById({ _id: req.params.id }).populate({
+    const category = await Category.findOne({ slug: req.params.slug }).populate({
       path: 'phrases',
       select: 'phrase -_id',
       options: {
