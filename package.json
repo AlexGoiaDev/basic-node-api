@@ -1,12 +1,13 @@
 {
   "name": "basic-node-api",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A basic node api with express.js",
   "main": "app.js",
   "scripts": {
     "test": "mocha 'tests/**'",
     "start": "node start.js",
-    "start-dev": "nodemon start.js"
+    "start-dev": "nodemon start.js",
+    "upload": "npm version patch & git push origin master"
   },
   "author": "Álex Goia",
   "license": "ISC",
