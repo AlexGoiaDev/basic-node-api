@@ -43,23 +43,24 @@ router.post('/', async (req, res, next) => {
       return next(new BadRequestError('Google user not found'));
     }
 
-    const user = await User.findOne({ email: googleUser.email });
+    let user = await User.findOne({ email: googleUser.email });
     if (!user) {
-      await new User({
+      user = await new User({
         email: googleUser.email,
         password: '!-_-_-!',
         loginStrategy: 'gmail',
       }).save();
-    } else if (user.loginStrategy === 'email') {
+    }
+    if (user.loginStrategy === 'email') {
       throw new BadRequestError('You have to login with your email. Not with Google.');
     }
-
     const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
     return res.send({
       access_token: token,
       expires_in: expiration,
     });
   } catch (err) {
+    console.log('Error', err);
     return next(err);
   }
 });
