@@ -11,7 +11,7 @@ module.exports = {
   googleClientId: '535117363290-tco768uqho9hui9c1667fbs64crr6jok.apps.googleusercontent.com',
   /* Dev config */
   enabledLog: false,
-  auth: false,
+  auth: true,
   roles: false,
   gmailAccount: 'alexgoiapsi@gmail.com',
   gmailPassword: 'Mcgnlmrsld!1991',
