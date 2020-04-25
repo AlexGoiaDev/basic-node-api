@@ -7,7 +7,6 @@ const isAuth = require('../../middlewares/isAuth');
 // 2. READ
 router.get('/', isAuth, async (req, res, next) => {
   try {
-    console.log('Req user', req.user);
     const user = await User.findById(req.user._id);
     if (!user) {
       throw new NoContentError();
