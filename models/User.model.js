@@ -34,6 +34,9 @@ const userSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  img: {
+    type: String,
+  },
   loginStrategy: {
     type: String,
     enum: ['email', 'gmail'],

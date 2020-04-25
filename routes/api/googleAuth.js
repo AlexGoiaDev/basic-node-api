@@ -49,6 +49,7 @@ router.post('/', async (req, res, next) => {
         email: googleUser.email,
         password: '!-_-_-!',
         loginStrategy: 'gmail',
+        img: googleUser.img,
       }).save();
     }
     if (user.loginStrategy === 'email') {
