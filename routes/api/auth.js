@@ -47,7 +47,7 @@ router.post('/recovery-email', async (req, res, next) => {
   try {
     const { email } = req.body;
     const resetPasswordToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
-    const resetPasswordTokenDate = moment();
+    const resetPasswordTokenDate = moment().toDate();
 
     const user = await User.findOneAndUpdate(
       { email },
@@ -58,14 +58,15 @@ router.post('/recovery-email', async (req, res, next) => {
       { new: true },
     );
     if (user) {
+      // TODO: Mejorar visualmente este apartado
       // Send email to restore password
       const emailSent = await sendEmail(email,
-        'Recovery password',
-        'Pincha en este enlace para cambiar tu contraseña');
+        'Reset your password',
+        `Enlace de recuperación: <a href='${config.recoverUrl + resetPasswordToken}'>Recuperar contraseña</a>`);
       if (emailSent.messageId) {
         return res.send({
-          messageId: emailSent.messageId,
-          message: 'Email sent!',
+          message: 'Recovery email sent!',
+          resetPasswordToken,
         });
       }
       return res.status(500).send({

@@ -15,4 +15,5 @@ module.exports = {
   roles: false,
   gmailAccount: 'alexgoiapsi@gmail.com',
   gmailPassword: 'Mcgnlmrsld!1991',
+  recoverUrl: process.env.RECOVERY_URL || 'http://localhost:8080/#/reset-password/',
 };
