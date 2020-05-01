@@ -43,18 +43,6 @@ router.get('/:id', isAuth, canAccess, async (req, res, next) => {
   }
 });
 
-router.get('/me', isAuth, async (req, res, next) => {
-  try {
-    const user = await User.findById({ _id: req.user._id });
-    if (!user) {
-      throw new NoContentError();
-    }
-    return res.send(user);
-  } catch (err) {
-    return next(err);
-  }
-});
-
 // 3. UPDATE
 router.put('/:id', isAuth, canAccess, async (req, res, next) => {
   try {
@@ -73,17 +61,6 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 });
 
 // 2. DELETE
-
-router.delete('/all', async (req, res, next) => {
-  try {
-    const usersDeleted = await User.deleteMany({});
-    return res.send(usersDeleted);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-
 router.delete('/:id', isAuth, canAccess, async (req, res, next) => {
   try {
     const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
