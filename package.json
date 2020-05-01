@@ -1,6 +1,6 @@
 {
   "name": "basic-node-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A basic node api with express.js",
   "main": "app.js",
   "scripts": {
