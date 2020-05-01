@@ -81,9 +81,11 @@ router.post('/recovery-email', async (req, res, next) => {
 
 const canUpdatePassword = async (resetPasswordToken) => {
   const user = await User.findOne({ resetPasswordToken });
-  const diff = moment(new Date()).diff(user.resetPasswordTokenDate, 'm');
-  if (user && diff <= config.maxTimeResetPass) {
-    return true;
+  if (user) {
+    const diff = moment(new Date()).diff(user.resetPasswordTokenDate, 'm');
+    if (diff <= config.maxTimeResetPass) {
+      return true;
+    }
   }
   return false;
 };
