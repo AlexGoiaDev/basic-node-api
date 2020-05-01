@@ -61,7 +61,7 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 });
 
 // 2. DELETE
-router.delete('/:id', isAuth, canAccess, async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
     return res.send(userDeleted);

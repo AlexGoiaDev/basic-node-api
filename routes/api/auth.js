@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-router.post('/recover-email', async (req, res, next) => {
+router.post('/recovery-email', async (req, res, next) => {
   try {
     const { email } = req.body;
     const resetPasswordToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
