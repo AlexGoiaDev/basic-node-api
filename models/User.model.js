@@ -34,9 +34,12 @@ const userSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  img: {
+    type: String,
+  },
   loginStrategy: {
     type: String,
-    enum: ['email', 'google'],
+    enum: ['email', 'gmail'],
     default: 'email',
   },
   resetPasswordToken: {
@@ -68,6 +71,6 @@ userSchema.pre('findOneAndUpdate', function (next) {
     next();
   }
 });
-userSchema.post('save', () => {});
+userSchema.post('save', () => { });
 
 module.exports = mongoose.model('User', userSchema);
