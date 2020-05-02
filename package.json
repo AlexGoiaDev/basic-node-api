@@ -25,6 +25,7 @@
     "mongoose": "^5.9.5",
     "nodemailer": "^6.4.6",
     "socket.io": "^2.3.0",
+    "stripe": "^8.49.0",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
