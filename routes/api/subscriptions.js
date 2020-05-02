@@ -15,29 +15,28 @@ router.get('/', async (req, res, next) => {
     },
     (err, plans) => {
       if (err) {
-        res.status(500).send({
+        return res.status(500).send({
           message: 'Holi',
           err,
         });
-      } else {
-        let subscriptions = [];
-        if (plans && plans.data && plans.data.length > 0) {
-          subscriptions = plans.data.map((plan) => ({
-            amount: plan.amount,
-            amount_decimal: plan.amount_decimal,
-            billing_scheme: plan.billing_scheme,
-            currency: 'eur',
-            id: plan.id,
-          }));
-        }
-        if (subscriptions && subscriptions.length === 0) {
-          return next(new NoContentError());
-        }
-
-        return res.send({
-          subscriptions,
-        });
       }
+      let subscriptions = [];
+      if (plans && plans.data && plans.data.length > 0) {
+        subscriptions = plans.data.map((plan) => ({
+          amount: plan.amount,
+          amount_decimal: plan.amount_decimal,
+          billing_scheme: plan.billing_scheme,
+          currency: 'eur',
+          id: plan.id,
+        }));
+      }
+      if (subscriptions && subscriptions.length === 0) {
+        return next(new NoContentError());
+      }
+
+      return res.send({
+        subscriptions,
+      });
     });
   } catch (err) {
     return next(err);
