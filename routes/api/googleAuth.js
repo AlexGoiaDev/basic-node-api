@@ -4,10 +4,9 @@ const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
-const secret = process.env.SECRET || config.secret;
-const expiration = process.env.EXPIRATION || config.expiration;
+const { secret, expiration } = config;
 
-const clientId = process.env.GOOGLE_CLIENT_ID || config.googleClientId;
+const clientId = config.googleClientId;
 const client = new OAuth2Client(clientId);
 
 /* MODELS */
