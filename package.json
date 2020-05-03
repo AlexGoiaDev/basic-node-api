@@ -24,6 +24,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.9.5",
     "nodemailer": "^6.4.6",
+    "pg-promise": "^10.5.2",
     "socket.io": "^2.3.0",
     "typescript": "^3.8.3"
   },
