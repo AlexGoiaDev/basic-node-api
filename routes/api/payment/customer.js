@@ -6,6 +6,8 @@ const stripe = require('stripe')(config.stripeSecretKey);
 const NoContentError = require('../../../utilities/errors/NoContentError');
 const BadRequestError = require('../../../utilities/errors/BadRequestError');
 const User = require('../../../models/User.model');
+const canAccess = require('../../../middlewares/canAccess');
+
 
 router.post('/', async (req, res, next) => {
   const { email } = req.body;
@@ -36,5 +38,21 @@ router.post('/', async (req, res, next) => {
     return next(err);
   }
 });
+
+router.get('/:id', canAccess, async (req, res, next) => {
+  try {
+    const user = await User.findById({ _id: req.params.id });
+    if (!user) {
+      throw new NoContentError();
+    }
+    // const customer = await stripe.customers.retrive(user.stripeCustomerId);
+    const customer = await stripe.customers.retrieve(user.stripeCustomerId);
+    return res.send(customer);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// Delete: We shoud delete the customer when deleting a user
 
 module.exports = router;
