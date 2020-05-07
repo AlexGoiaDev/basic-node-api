@@ -68,30 +68,4 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-
-router.post('/me', (req, res, next) => {
-  const { email } = req.body;
-  console.log('Email', email);
-  try {
-    if (!email) {
-      return next(new BadRequestError('Yo must provide your email'));
-    }
-    stripe.customers.list({
-      email,
-    }, (err, customer) => {
-      if (err) {
-        return res.send(err);
-      }
-      return res.send(customer);
-    });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-router.post('/create', (req, res, next) => {
-  const { } = req.body;
-});
-
-
 module.exports = router;
