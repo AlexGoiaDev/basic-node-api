@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const User = require('../../models/User.model');
@@ -5,6 +6,8 @@ const NoContentError = require('../../utilities/errors/NoContentError');
 const isAuth = require('../../middlewares/isAuth');
 const canAccess = require('../../middlewares/canAccess');
 const isAdmin = require('../../middlewares/isAdmin');
+const config = require('../../config');
+const stripe = require('stripe')(config.stripeSecretKey);
 
 // CRUD
 // 1. CREATE
@@ -64,6 +67,9 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
+    if (userDeleted.stripeCustomerId) {
+      await stripe.customers.del(userDeleted.stripeCustomerId);
+    }
     return res.send(userDeleted);
   } catch (err) {
     return next(err);
