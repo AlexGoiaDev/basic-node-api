@@ -13,7 +13,10 @@ module.exports = {
   gmailPassword: process.env.GMAIL_PASSWORD || 'Mcgnlmrsld!1991',
   recoverUrl: process.env.RECOVERY_URL || 'http://localhost:8080/#/reset-password/',
   stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_9MdSDo6IcMlWz9ufFW1S6yMu00ObTBjlVb',
-  stripeProduct: process.env.STRIPE_PLAN || 'prod_HClc1tdSzlIosg',
+  stripePlan: process.env.STRIPE_PLAN || 'prod_HClc1tdSzlIosg',
+  stripeSuccessUrl: process.env.STRIPE_SUCCESS_URL || 'http://localhost:8080',
+  stripeCancelUrl: process.env.STRIPE_CANCEL_URL || 'http://localhost:8080',
+  stripePayments: process.env.STRIPE_PAYMENTS || 'card',
   /* Dev config */
   enabledLog: false,
   auth: true,
