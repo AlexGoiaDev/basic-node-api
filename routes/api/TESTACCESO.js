@@ -5,7 +5,7 @@ const pgp = require("pg-promise")();
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-const db = pgp('postgres://postgres:mysecretpassword@192.168.0.12:5432/postgres');
+const db = pgp('postgres://postgres:mysecretpassword@pitedomo.duckdns.org:5432/postgres');
 //this shit is only to can read de body content
 
 const app = express();
