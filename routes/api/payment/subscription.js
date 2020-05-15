@@ -7,6 +7,7 @@ const stripe = require('stripe')(config.stripeSecretKey);
 
 router.delete('/:id', async (req, res, next) => {
   try {
+    // TODO: A cliente shoud only cancel their subscriptions
     const { id } = req.params;
     if (!id) {
       throw new BadRequestError('Suscription id required');
