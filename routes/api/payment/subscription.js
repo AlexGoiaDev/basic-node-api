@@ -12,7 +12,7 @@ router.delete('/:id', async (req, res, next) => {
     if (!id) {
       throw new BadRequestError('Suscription id required');
     }
-    const suscriptionDeleted = await stripe.subscriptions.del(id);
+    const suscriptionDeleted = await stripe.subscriptions.update(id, { cancel_at_period_end: true });
     if (!suscriptionDeleted) {
       throw new NoContentError('No suscription with that id');
     }
