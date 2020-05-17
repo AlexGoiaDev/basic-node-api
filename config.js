@@ -14,7 +14,7 @@ module.exports = {
   recoverUrl: process.env.RECOVERY_URL || 'http://localhost:8080/#/reset-password/',
   stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_9MdSDo6IcMlWz9ufFW1S6yMu00ObTBjlVb',
   stripePlan: process.env.STRIPE_PLAN || 'prod_HClc1tdSzlIosg',
-  stripeSuccessUrl: process.env.STRIPE_SUCCESS_URL || 'http://localhost:8080',
+  stripeSuccessUrl: process.env.STRIPE_SUCCESS_URL || 'http://localhost:8082/#/subscription',
   stripeCancelUrl: process.env.STRIPE_CANCEL_URL || 'http://localhost:8080',
   stripePayments: process.env.STRIPE_PAYMENTS || 'card',
   /* Dev config */

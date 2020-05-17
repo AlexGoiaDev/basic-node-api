@@ -39,6 +39,20 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.get('/', async (req, res, next) => {
+  try {
+    const user = await User.findById({ _id: req.user._id });
+    if (!user) {
+      throw new NoContentError();
+    }
+    // const customer = await stripe.customers.retrive(user.stripeCustomerId);
+    const customer = await stripe.customers.retrieve(user.stripeCustomerId);
+    return res.send(customer);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.get('/:id', canAccess, async (req, res, next) => {
   try {
     const user = await User.findById({ _id: req.params.id });

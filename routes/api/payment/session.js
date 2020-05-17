@@ -9,10 +9,16 @@ router.post('/', async (req, res, next) => {
   try {
     const { plan } = req.body;
     if (!req.user.stripeCustomerId) {
+      // TODO: should CREATE IT?
       throw new BadRequestError('The user is not a client');
     }
     if (!plan) {
       throw new BadRequestError('Plan is required to create a session');
+    }
+
+    const customer = await stripe.customers.retrieve(req.user.stripeCustomerId);
+    if (customer && customer.subscriptions.total_count > 0) {
+      throw new BadRequestError('The user also has a suscription');
     }
 
     let planFound = null;

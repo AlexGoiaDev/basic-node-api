@@ -20,8 +20,8 @@ router.get('/', async (req, res, next) => {
       name: plan.nickname,
       currency: 'eur',
       id: plan.id,
-      withoutDiscount: plan.metadata && plan.metadata.withoutDiscount ? plan.metadata.withoutDiscount : undefined,
-      saveMoney: plan.metadata && plan.metadata.saveMoney ? plan.metadata.saveMoney : undefined,
+      interval: plan.interval,
+      interval_count: plan.interval_count,
     }));
     if (plans && plans.length === 0) {
       return next(new NoContentError());
