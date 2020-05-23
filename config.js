@@ -19,6 +19,6 @@ module.exports = {
   stripePayments: process.env.STRIPE_PAYMENTS || 'card',
   /* Dev config */
   enabledLog: true,
-  auth: true,
-  roles: false,
+  auth: process.env.AUTH,
+  roles: process.env.ROLES,
 };

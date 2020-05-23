@@ -6,8 +6,7 @@ const bcrypt = require('bcrypt');
 
 const config = require('../../config');
 
-const secret = process.env.SECRET || config.secret;
-const expiration = process.env.EXPIRATION || config.expiration;
+const { secret, expiration } = config;
 
 const UnauthorizedError = require('../../utilities/errors/UnauthorizedError');
 
