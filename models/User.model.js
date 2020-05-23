@@ -48,6 +48,9 @@ const userSchema = mongoose.Schema({
   resetPasswordTokenDate: {
     type: Date,
   },
+  stripeCustomerId: {
+    type: String,
+  },
 
 });
 

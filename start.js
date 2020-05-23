@@ -3,11 +3,9 @@ const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config');
 
-const PORT = process.env.PORT || config.port;
-const DB = process.env.DB || config.db;
-const HOST = process.env.HOST || config.host;
-const DB_USER = process.env.DB_USER || config.dbUser;
-const DB_PASSWORD = process.env.DB_PASSWORD || config.dbPassword;
+const {
+  PORT, DB, HOST, DB_PASSWORD, DB_USER,
+} = config;
 
 const connectToDb = () => {
   mongoose.connect(
