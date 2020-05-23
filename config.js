@@ -18,7 +18,7 @@ module.exports = {
   stripeCancelUrl: process.env.STRIPE_CANCEL_URL || 'http://localhost:8080',
   stripePayments: process.env.STRIPE_PAYMENTS || 'card',
   /* Dev config */
-  enabledLog: false,
+  enabledLog: true,
   auth: true,
   roles: false,
 };

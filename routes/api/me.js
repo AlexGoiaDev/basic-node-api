@@ -17,6 +17,7 @@ router.get('/', isAuth, async (req, res, next) => {
     }
     return res.send(user);
   } catch (err) {
+    console.log('Error', err);
     return next(err);
   }
 });
