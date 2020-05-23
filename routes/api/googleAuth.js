@@ -60,7 +60,6 @@ router.post('/', async (req, res, next) => {
       expires_in: expiration,
     });
   } catch (err) {
-    console.log('Error', err);
     return next(err);
   }
 });
