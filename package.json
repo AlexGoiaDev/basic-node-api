@@ -1,6 +1,6 @@
 {
   "name": "basic-node-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A basic node api with express.js",
   "author": "Álex Goia",
   "scripts": {
