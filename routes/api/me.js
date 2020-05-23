@@ -9,7 +9,7 @@ const isAuth = require('../../middlewares/isAuth');
 router.get('/', isAuth, async (req, res, next) => {
   try {
     if (req && !req.user) {
-      throw BadRequestError('Need a user to show the profile.');
+      throw new BadRequestError('Need a user to show the profile.');
     }
     const user = await User.findById(req.user._id);
     if (!user) {
