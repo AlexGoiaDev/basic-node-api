@@ -29,6 +29,7 @@ const defaultError = (err, req, res) => res.status(500).send({
 
 const errorHandler = (err, req, res, next) => {
   if (err) {
+    console.log('Error', err);
     switch (err.name) {
       case 'MongoError':
         return handleMongoErrors(err, req, res, next);
@@ -40,7 +41,7 @@ const errorHandler = (err, req, res, next) => {
         return defaultError(err, req, res, next);
     }
   } else {
-    return defaultError(err, req, res, next);
+    return next();
   }
 };
 
