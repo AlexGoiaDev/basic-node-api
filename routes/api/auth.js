@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
     if (!user || (user && !bcrypt.compareSync(password, user.password))) {
       throw new BadRequestError('Wrong email or password');
     }
-    const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
+    const token = jwt.sign(user.toJSON(), secret, { expiresIn: Number(expiration) });
     const dataToken = {
       access_token: token,
       expires_in: config.expiration,

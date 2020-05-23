@@ -54,7 +54,7 @@ router.post('/', async (req, res, next) => {
     if (user.loginStrategy === 'email') {
       throw new BadRequestError('You have to login with your email. Not with Google.');
     }
-    const token = jwt.sign(user.toJSON(), secret, { expiresIn: expiration });
+    const token = jwt.sign(user.toJSON(), secret, { expiresIn: Number(expiration) });
     return res.send({
       access_token: token,
       expires_in: expiration,
