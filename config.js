@@ -12,6 +12,7 @@ module.exports = {
   gmailAccount: process.env.GMAIL_ACCOUNT || 'alexgoiapsi@gmail.com',
   gmailPassword: process.env.GMAIL_PASSWORD || 'Mcgnlmrsld!1991',
   recoverUrl: process.env.RECOVERY_URL || 'http://localhost:8080/#/reset-password/',
+  activateAccountUrl: process.env.ACTIVATE_ACCOUNT_URL || 'http://localhost:8080/#/activate-account/',
   stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_9MdSDo6IcMlWz9ufFW1S6yMu00ObTBjlVb',
   stripePlan: process.env.STRIPE_PLAN || 'prod_HClc1tdSzlIosg',
   stripeSuccessUrl: process.env.STRIPE_SUCCESS_URL || 'http://localhost:8082/#/subscription',
