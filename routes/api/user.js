@@ -10,13 +10,24 @@ const canAccess = require('../../middlewares/canAccess');
 const isAdmin = require('../../middlewares/isAdmin');
 const config = require('../../config');
 const stripe = require('stripe')(config.stripeSecretKey);
+const { sendEmail } = require('../../utilities/functions/email');
 
+const { activateAccountUrl } = require('../../config');
 // CRUD
 // 1. CREATE
 router.post('/', async (req, res, next) => {
   try {
     delete req.body.role; // By default you can't create admin users
     const newUser = await new User(req.body).save();
+    /*
+       TODO: Remove when enabled email
+        await sendEmail(
+          newUser.email,
+          'Reset your password',
+          `<a href='${activateAccountUrl + newUser.activateToken}'>Activar cuenta</a>`,
+        );
+        */
+
     return res.status(201).send(newUser.getBasicInfo());
   } catch (err) {
     return next(err);
