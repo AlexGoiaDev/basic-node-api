@@ -67,6 +67,7 @@ const hashPass = (element, next) => {
   element.password = bcrypt.hashSync(element.password, bcrypt.genSaltSync(saltRounds));
   if (element.loginStrategy === 'email' && element.activated === false && !element.activateToken) {
     element.activateToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
+    console.log('Generated', element.activateToken);
   }
   next();
 };
