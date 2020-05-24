@@ -3,6 +3,7 @@
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const saltRounds = 10;
 
@@ -51,12 +52,22 @@ const userSchema = mongoose.Schema({
   stripeCustomerId: {
     type: String,
   },
+  activated: {
+    type: Boolean,
+    default: false,
+  },
+  activateToken: {
+    type: String,
+  },
 
 });
 
 // Esta función se ejecutará en un try and catch
 const hashPass = (element, next) => {
   element.password = bcrypt.hashSync(element.password, bcrypt.genSaltSync(saltRounds));
+  if (element.loginStrategy === 'email' && element.activated === false && !element.activateToken) {
+    element.activateToken = crypto.randomFillSync(Buffer.alloc(128), 0, 128).toString('hex');
+  }
   next();
 };
 
@@ -75,5 +86,14 @@ userSchema.pre('findOneAndUpdate', function (next) {
   }
 });
 userSchema.post('save', () => { });
+
+userSchema.methods.getBasicInfo = function () {
+  const user = this.toObject();
+  delete user.password;
+  delete user.activateToken;
+  delete user.resetPasswordToken;
+  delete user.resetPasswordTokenDate;
+  return user;
+};
 
 module.exports = mongoose.model('User', userSchema);

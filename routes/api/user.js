@@ -3,6 +3,8 @@
 const router = require('express').Router();
 const User = require('../../models/User.model');
 const NoContentError = require('../../utilities/errors/NoContentError');
+const BadRequestError = require('../../utilities/errors/BadRequestError');
+
 const isAuth = require('../../middlewares/isAuth');
 const canAccess = require('../../middlewares/canAccess');
 const isAdmin = require('../../middlewares/isAdmin');
@@ -15,7 +17,7 @@ router.post('/', async (req, res, next) => {
   try {
     delete req.body.role; // By default you can't create admin users
     const newUser = await new User(req.body).save();
-    return res.status(201).send(newUser);
+    return res.status(201).send(newUser.getBasicInfo());
   } catch (err) {
     return next(err);
   }
@@ -40,7 +42,7 @@ router.get('/:id', isAuth, canAccess, async (req, res, next) => {
     if (!user) {
       throw new NoContentError();
     }
-    return res.send(user);
+    return res.send(user.getBasicInfo());
   } catch (err) {
     return next(err);
   }
@@ -57,7 +59,7 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
       req.body,
       { new: true }, // Returns the updated document
     );
-    return res.send(userUpdated);
+    return res.send(userUpdated.getBasicInfo());
   } catch (err) {
     return next(err);
   }
@@ -67,10 +69,13 @@ router.put('/:id', isAuth, canAccess, async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const userDeleted = await User.findByIdAndDelete({ _id: req.params.id });
+    if (!userDeleted) {
+      throw new BadRequestError('No user with that id');
+    }
     if (userDeleted.stripeCustomerId) {
       await stripe.customers.del(userDeleted.stripeCustomerId);
     }
-    return res.send(userDeleted);
+    return res.send(userDeleted.getBasicInfo());
   } catch (err) {
     return next(err);
   }
