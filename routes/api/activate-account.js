@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const User = require('../../models/User.model');
-const NoContentError = require('../../utilities/errors/NoContentError');
 const BadRequestError = require('../../utilities/errors/BadRequestError');
 
 // 2. READ
@@ -22,7 +21,7 @@ router.post('/', async (req, res, next) => {
     );
 
     if (!user) {
-      throw new NoContentError('Token does not exist or already used');
+      throw new BadRequestError('Token does not exist or already used');
     }
 
     return res.send({
