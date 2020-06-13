@@ -33,7 +33,7 @@ router.post('/', async (req, res, next) => {
       { stripeCustomerId: customer.id },
       { new: true },
     );
-    return res.send(userUpdated);
+    return res.send(userUpdated.getBasicInfo());
   } catch (err) {
     return next(err);
   }
