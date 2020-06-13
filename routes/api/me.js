@@ -15,7 +15,7 @@ router.get('/', isAuth, async (req, res, next) => {
     if (!user) {
       throw new NoContentError();
     }
-    return res.send(user);
+    return res.send(user.getBasicInfo());
   } catch (err) {
     return next(err);
   }
