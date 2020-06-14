@@ -61,16 +61,16 @@ router.put('/:id', async (req, res, next) => {
       throw new BadRequestError("User don't have that subscription");
     }
 
-    const suscriptionDeleted = await stripe.subscriptions.update(
+    const suscriptionModified = await stripe.subscriptions.update(
       id,
       { cancel_at_period_end: !!reactivate },
     );
 
-    if (!suscriptionDeleted) {
+    if (!suscriptionModified) {
       throw new NoContentError('No suscription with that id');
     }
 
-    return res.send(suscriptionDeleted);
+    return res.send(suscriptionModified);
   } catch (err) {
     return next(err);
   }
