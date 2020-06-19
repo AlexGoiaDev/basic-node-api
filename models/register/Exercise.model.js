@@ -7,6 +7,7 @@ const exerciseSchema = mongoose.Schema({
     required: 'Id is required.',
     minlength: 3,
     maxlength: 30,
+    unique: true,
   },
   creationDate: {
     type: Date,

@@ -15,14 +15,14 @@ router.post('/', async (req, res, next) => {
   try {
     delete req.body.role; // By default you can't create admin exercises
     const newExercise = await new Exercise(req.body).save();
-    return res.status(201).send(newExercise.getBasicInfo());
+    return res.status(201).send(newExercise);
   } catch (err) {
     return next(err);
   }
 });
 
 // 2. READ
-router.get('/', isAuth, isAdmin, async (req, res, next) => {
+router.get('/', isAuth, async (req, res, next) => {
   try {
     const exercises = await Exercise.find({});
     if (exercises && exercises.length === 0) {
@@ -40,7 +40,7 @@ router.get('/:id', isAuth, canAccess, async (req, res, next) => {
     if (!exercise) {
       throw new NoContentError();
     }
-    return res.send(exercise.getBasicInfo());
+    return res.send(exercise);
   } catch (err) {
     return next(err);
   }
