@@ -3,7 +3,7 @@ const handleMongoErrors = (err, req, res) => {
   switch (err.code) {
     case 11000:
       return res.status(409).send({
-        message: 'User already exists.',
+        message: 'Element already exists.',
       });
     default:
       return res.status(500).send({
