@@ -3,7 +3,6 @@
 const router = require('express').Router();
 const Exercise = require('../../../models/track/Exercise.model');
 const NoContentError = require('../../../utilities/errors/NoContentError');
-const BadRequestError = require('../../../utilities/errors/BadRequestError');
 
 // CRUD
 // 1. CREATE
