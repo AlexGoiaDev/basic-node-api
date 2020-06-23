@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
 // 2. READ
 router.get('/', async (req, res, next) => {
   try {
-    const sessions = await Session.find();
+    const sessions = await Session.find().populate('registers');
     if (sessions && sessions.length === 0) {
       throw new NoContentError();
     }
