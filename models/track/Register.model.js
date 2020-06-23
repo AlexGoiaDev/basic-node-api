@@ -20,6 +20,10 @@ const registerSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Session',
   },
+  exercise: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exercise',
+  },
 
 });
 

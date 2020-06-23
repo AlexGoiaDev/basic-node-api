@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
 const Session = require('../../../models/track/Session.model');
+const Register = require('../../../models/track/Register.model');
 const NoContentError = require('../../../utilities/errors/NoContentError');
 
 // CRUD
@@ -60,6 +61,7 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const sessionDeleted = await Session.findByIdAndDelete({ _id: req.params.id });
+    await Register.deleteMany({ _id: sessionDeleted.registers });
     return res.send(sessionDeleted);
   } catch (err) {
     return next(err);
