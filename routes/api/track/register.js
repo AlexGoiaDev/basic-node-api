@@ -15,15 +15,16 @@ router.post('/', async (req, res, next) => {
       throw new BadRequestError('Session id rqequired');
     }
     const newRegister = await new Register(req.body).save();
-    Session.findByIdAndUpdate(
-      { _id: newRegister._id },
+    const sessionUpdated = await Session.findByIdAndUpdate(
+      { _id: body.session },
       {
         $push: {
           registers: newRegister._id,
         },
       },
-      { upsert: true },
+      { new: true },
     );
+    console.log('Session updated', sessionUpdated);
     return res.status(201).send(newRegister);
   } catch (err) {
     return next(err);
