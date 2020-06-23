@@ -10,10 +10,16 @@ const BadRequestError = require('../../../utilities/errors/BadRequestError');
 // 1. CREATE
 router.post('/', async (req, res, next) => {
   try {
+    // TODO: preparar para múltiples registros
     const { body } = req;
     if (!body.session) {
       throw new BadRequestError('Session id rqequired');
     }
+
+    if (!body.exercise) {
+      throw new BadRequestError('Exercise id required');
+    }
+
     const newRegister = await new Register(req.body).save();
     const sessionUpdated = await Session.findByIdAndUpdate(
       { _id: body.session },
