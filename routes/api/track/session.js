@@ -21,6 +21,7 @@ router.post('/', async (req, res, next) => {
 // 2. READ
 router.get('/', async (req, res, next) => {
   try {
+    // Sólo mostramos aquellas sesiones del usuario
     const sessions = await Session.find({ createdBy: req.user._id }).populate({
       path: 'registers',
       // select: ['exercise', 'repetitions'],
