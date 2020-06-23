@@ -1,5 +1,7 @@
 const router = require('express').Router();
-
-router.use('/exercise', require('./exercise'));
+const isAuth = require('../../../middlewares/isAuth');
+router.use('/exercise', isAuth, require('./exercise'));
+router.use('/session', isAuth, require('./session'));
+router.use('/register', isAuth, require('./register'));
 
 module.exports = router;
