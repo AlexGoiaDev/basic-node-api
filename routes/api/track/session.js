@@ -21,7 +21,14 @@ router.post('/', async (req, res, next) => {
 // 2. READ
 router.get('/', async (req, res, next) => {
   try {
-    const sessions = await Session.find().populate('registers');
+    const sessions = await Session.find({ createdBy: req.user._id }).populate({
+      path: 'registers',
+      // select: ['exercise', 'repetitions'],
+      populate: {
+        path: 'exercise',
+        // select: req.query.es || 'es',
+      },
+    });
     if (sessions && sessions.length === 0) {
       throw new NoContentError();
     }
