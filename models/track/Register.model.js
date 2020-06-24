@@ -9,6 +9,7 @@ const registerSchema = mongoose.Schema({
   },
   weightUnit: {
     type: String,
+    default: 'kg',
   },
   repetitions: {
     type: Number,

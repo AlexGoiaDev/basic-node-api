@@ -3,6 +3,7 @@
 const router = require('express').Router();
 const Exercise = require('../../../models/track/Exercise.model');
 const NoContentError = require('../../../utilities/errors/NoContentError');
+const BadRequestError = require('../../../utilities/errors/BadRequestError');
 
 // CRUD
 // 1. CREATE
@@ -18,7 +19,11 @@ router.post('/', async (req, res, next) => {
 // 2. READ
 router.get('/', async (req, res, next) => {
   try {
-    const exercises = await Exercise.find();
+    const { lang = 'es', name } = req.query;
+    if (!name) {
+      throw new BadRequestError('You must query with a name');
+    }
+    const exercises = await Exercise.find({ [`${lang}`]: { $regex: name, $options: 'i' } }).limit(5);
     if (exercises && exercises.length === 0) {
       throw new NoContentError();
     }
